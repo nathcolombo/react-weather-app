@@ -1,0 +1,128 @@
+/* commit test */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  background-color: #f0f0f0;
+}
+
+.app {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.weather-info {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+input {
+  padding: 10px;
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 1.2rem;
+  margin-right: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  background-color: #216583;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1.2rem;
+}
+
+button:hover {
+  background-color: #65c0ba;
+}
+
+.language-select label {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+select {
+  padding: 5px;
+  font-size: 1.2rem;
+  margin-top: 10px;
+  margin-left: 5px;
+  border-radius: 20px;
+}
+
+.error {
+  color: red;
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 400px;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card img {
+  border-radius: 10px;
+  max-width: 100%;
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.card p {
+  margin: 10px 0;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 600px) {
+  .app {
+    margin-top: 20px;
+  }
+
+  .input-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .weather-info {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  input {
+    width: 80%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  button {
+    width: 80%;
+  }
+
+  select {
+    width: 80%;
+  }
+}
