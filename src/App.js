@@ -11,10 +11,10 @@ import rainyDay from "./animations/rainy_day.json";
 import rainyNight from "./animations/rainy_night.json";
 import snow from "./animations/snow.json";
 import stormAnimation from "./animations/storm.json";
-import sunnySnow from "./animations/sunny_snow.json";
 import sunny from "./animations/sunny.json";
 import thunder from "./animations/thunder.json";
 import windy from "./animations/windy.json";
+import sunnySnow from "./animations/sunny_snow.json";
 
 const App = () => {
   const [city, setCity] = useState("");
@@ -26,7 +26,11 @@ const App = () => {
 
   const getWeather = async () => {
     if (!city) {
-      setError("Please enter a city name.");
+      setError(
+        language === "en"
+          ? "Please enter a city name."
+          : "Por favor, insira o nome de uma cidade."
+      );
       return;
     }
 
@@ -40,48 +44,60 @@ const App = () => {
       if (err.response) {
         setError(err.response.data.message);
       } else {
-        setError("Erro de conexão. Tente novamente mais tarde.");
+        setError(
+          language === "en"
+            ? "Connection error. Please try again later."
+            : "Erro de conexão. Por favor, tente novamente mais tarde."
+        );
       }
       setWeather(null);
     }
   };
 
+  const isItNight = (sunrise, sunset, timezone) => {
+    const date = new Date();
+    const utcTime = date.getTime() + date.getTimezoneOffset() * 60000;
+    const localTime = utcTime + timezone * 1000;
+    const sunriseTime = (sunrise + timezone) * 1000;
+    const sunsetTime = (sunset + timezone) * 1000;
+
+    return localTime < sunriseTime || localTime >= sunsetTime;
+  };
+
   const getWeatherAnimation = (code) => {
-    const isNight = weather && weather.weather[0].icon.includes("n");
+    const isNight =
+      weather &&
+      isItNight(weather.sys.sunrise, weather.sys.sunset, weather.timezone);
 
     if (code >= 200 && code < 300) return isNight ? thunder : dayStorm;
     if (code >= 300 && code < 400) return isNight ? rainyNight : rainyDay;
     if (code >= 500 && code < 600) return isNight ? rainyNight : rainyDay;
-    if (code >= 600 && code < 700) {
-      if (isNight) return nightSnow;
-      if (code === 600 || code === 601) return sunnySnow;
-      return snow;
-    }
+    if (code >= 600 && code < 700) return isNight ? nightSnow : snow;
     if (code >= 700 && code < 800) return windy;
     if (code === 800) return isNight ? moonClear : sunny;
     if (code === 801 || code === 802)
       return isNight ? moonCloudy : partlyCloudy;
-    if (code > 802 && code <= 804) return partlyCloudy;
+    if (code > 802 && code <= 804) return isNight ? moonCloudy : partlyCloudy;
+    if (code === 601 && !isNight) return sunnySnow;
 
-    if (code >= 200 && code <= 232) return stormAnimation;
-
-    return sunny;
+    return stormAnimation;
   };
 
-  const translateDescription = (code) => {
+  const translateDescription = (description, code) => {
     const translations = {
-      200: "tempestade com trovões leves",
-      202: "tempestade forte com trovões",
-      300: "chuvisco leve",
-      500: "chuva leve",
-      600: "neve leve",
-      800: "céu limpo",
-      801: "poucas nuvens",
-      802: "nuvens dispersas",
-      804: "nublado",
+      200: { en: "light thunderstorm", pt: "trovoada leve" },
+      202: { en: "heavy thunderstorm", pt: "trovoada forte" },
+      300: { en: "light drizzle", pt: "garoa leve" },
+      500: { en: "light rain", pt: "chuva leve" },
+      600: { en: "light snow", pt: "neve leve" },
+      601: { en: "snow with sunshine", pt: "neve com sol" },
+      800: { en: "clear sky", pt: "céu limpo" },
+      801: { en: "few clouds", pt: "poucas nuvens" },
+      802: { en: "scattered clouds", pt: "nuvens dispersas" },
+      804: { en: "overcast clouds", pt: "nublado" },
     };
 
-    return translations[code] || "Clima desconhecido";
+    return translations[code] ? translations[code][language] : description;
   };
 
   return (
@@ -94,9 +110,10 @@ const App = () => {
         <div className="card">
           <h2>{weather.main.temp} °C</h2>
           <p>
-            {language === "en"
-              ? weather.weather[0].description
-              : translateDescription(weather.weather[0].id)}
+            {translateDescription(
+              weather.weather[0].description,
+              weather.weather[0].id
+            )}
           </p>
           <div className="lottie-container">
             <Lottie
