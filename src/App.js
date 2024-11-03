@@ -86,14 +86,28 @@ const App = () => {
   const translateDescription = (description, code) => {
     const translations = {
       200: { en: "light thunderstorm", pt: "trovoada leve" },
+      201: { en: "thunderstorm", pt: "trovoada" },
       202: { en: "heavy thunderstorm", pt: "trovoada forte" },
+      210: { en: "light thunderstorm", pt: "trovoada leve" },
+      211: { en: "thunderstorm", pt: "trovoada" },
       300: { en: "light drizzle", pt: "garoa leve" },
+      301: { en: "drizzle", pt: "garoa" },
+      302: { en: "heavy drizzle", pt: "garoa forte" },
       500: { en: "light rain", pt: "chuva leve" },
+      501: { en: "moderate rain", pt: "chuva moderada" },
+      502: { en: "heavy rain", pt: "chuva forte" },
       600: { en: "light snow", pt: "neve leve" },
       601: { en: "snow with sunshine", pt: "neve com sol" },
+      602: { en: "heavy snow", pt: "neve forte" },
+      701: { en: "mist", pt: "névoa" },
+      711: { en: "smoke", pt: "fumaça" },
+      721: { en: "haze", pt: "neblina" },
+      731: { en: "dust", pt: "poeira" },
+      741: { en: "fog", pt: "nevoeiro" },
       800: { en: "clear sky", pt: "céu limpo" },
       801: { en: "few clouds", pt: "poucas nuvens" },
       802: { en: "scattered clouds", pt: "nuvens dispersas" },
+      803: { en: "broken clouds", pt: "nuvens fragmentadas" },
       804: { en: "overcast clouds", pt: "nublado" },
     };
 
